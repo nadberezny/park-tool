@@ -7,8 +7,9 @@ lazy val root = (project in file(".")).
       organization    := "com.nadberezny",
       scalaVersion    := "2.12.4"
     )),
-    mainClass in Compile := Some("com.nadberezny.parktool.ParkToolApp"),
-    name := "My Akka HTTP Project",
+    mainClass in Compile  := Some("com.nadberezny.parktool.ParkToolApp"),
+    name                  := "ParkTool",
+    dockerBaseImage       := "openjdk:jre-alpine",
     libraryDependencies ++= Seq(
       "com.typesafe.akka" %% "akka-http"            % akkaHttpVersion,
       "com.typesafe.akka" %% "akka-http-spray-json" % akkaHttpVersion,
@@ -24,4 +25,8 @@ lazy val root = (project in file(".")).
       "com.typesafe.akka" %% "akka-cluster" % "2.5.9"
     )
   )
+
+enablePlugins(AshScriptPlugin) // Since we're using alpine image we need a way to fire bash scripts
+enablePlugins(DockerPlugin)
+enablePlugins(JavaAppPackaging)
 
