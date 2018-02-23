@@ -2,7 +2,7 @@ package com.nadberezny.parktool.routes
 
 import org.scalatest.{ Matchers, WordSpec }
 import akka.http.scaladsl.testkit.ScalatestRouteTest
-import akka.http.scaladsl.model.{ ContentTypes, StatusCodes }
+import akka.http.scaladsl.model._
 
 class ParkingMeterRoutesSpec extends WordSpec with Matchers with ScalatestRouteTest {
   "The App" should {
