@@ -2,7 +2,7 @@ package com.nadberezny.parktool.actors
 
 import akka.actor.{ Actor, Props }
 import com.github.nscala_time.time.Imports._
-import com.nadberezny.parktool.routes.RequestHandler
+import com.nadberezny.parktool.routes.{ Response }
 
 object ParkingMeter {
   def props(id: Int) = Props(new ParkingMeter(id))
@@ -16,9 +16,9 @@ class ParkingMeter(id: Int) extends Actor {
 
   override def receive = {
     case _: Start =>
-      sender ! RequestHandler.Response("Started")
+      sender ! Response("Started")
 
     case _: Stop =>
-      sender ! RequestHandler.Response("Stopped")
+      sender ! Response("Stopped")
   }
 }

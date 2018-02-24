@@ -3,7 +3,7 @@ package com.nadberezny.parktool.actors
 import akka.actor.ActorSystem
 import akka.testkit.{ ImplicitSender, TestKit }
 import com.nadberezny.parktool.actors.ParkingMeter.{ Start, Stop }
-import com.nadberezny.parktool.routes.RequestHandler
+import com.nadberezny.parktool.routes.Response
 import org.joda.time.DateTime
 import org.scalatest.{ BeforeAndAfterAll, FunSuiteLike }
 
@@ -20,11 +20,11 @@ class ParkingMeterTest(_system: ActorSystem) extends TestKit(_system)
   test("responds to start request") {
 
     parkingMeter ! Start(vehicleId, DateTime.now)
-    expectMsg(RequestHandler.Response("Started"))
+    expectMsg(Response("Started"))
   }
 
   test("responds to stop request") {
     parkingMeter ! Stop(vehicleId, DateTime.now)
-    expectMsg(RequestHandler.Response("Stopped"))
+    expectMsg(Response("Stopped"))
   }
 }

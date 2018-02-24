@@ -7,15 +7,20 @@ import com.nadberezny.parktool.actors.ParkingMeterSupervisor
 import com.nadberezny.parktool.routes.ParkingMeterRoutes
 import com.typesafe.config.ConfigFactory
 
-object ParkToolApp extends App {
-  implicit val system = ActorSystem("ParkToolSystem")
-  implicit val materializer = ActorMaterializer()
+import akka.util.Timeout
+import scala.concurrent.duration._
 
-  lazy val parkingMeterSupervisor = system.actorOf(ParkingMeterSupervisor.props)
-
+object ParkToolApp extends App with ParkingMeterRoutes {
   val conf = ConfigFactory.load
 
+  override implicit val system = ActorSystem(conf.getString("actorSystem"))
+  override implicit val executor = system.dispatcher
+  override implicit val materializer = ActorMaterializer()
+  override implicit val timeout = Timeout(conf.getInt("timeoutMillis") millis)
+
+  override val parkingMeterSupervisor = system.actorOf(ParkingMeterSupervisor.props)
+
   Http().bindAndHandle(
-    ParkingMeterRoutes.routes, conf.getString("app.host"), conf.getInt("app.port")
+    routes, conf.getString("http.host"), conf.getInt("http.port")
   )
 }

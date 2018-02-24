@@ -2,8 +2,8 @@ package com.nadberezny.parktool.actors
 
 import akka.actor.ActorSystem
 import akka.testkit.{ ImplicitSender, TestActorRef, TestKit }
-import com.nadberezny.parktool.actors.ParkingMeterSupervisor._
-import com.nadberezny.parktool.routes.RequestHandler
+import com.nadberezny.parktool.actors.ParkingMeterSupervisor.{ Start, Stop }
+import com.nadberezny.parktool.routes.Response
 import org.joda.time.DateTime
 import org.scalatest.{ BeforeAndAfterAll, FunSuiteLike }
 
@@ -15,12 +15,12 @@ class ParkingMeterSupervisorTest(_system: ActorSystem) extends TestKit(_system) 
   test("forwards start request") {
     val parkingMeterSupervisor = TestActorRef[ParkingMeterSupervisor]
     parkingMeterSupervisor ! Start(1, vehicleId, DateTime.now)
-    expectMsg(RequestHandler.Response("Started"))
+    expectMsg(Response("Started"))
   }
 
   test("forwards stop request") {
     val parkingMeterSupervisor = TestActorRef[ParkingMeterSupervisor]
     parkingMeterSupervisor ! Stop(1, vehicleId, DateTime.now)
-    expectMsg(RequestHandler.Response("Stopped"))
+    expectMsg(Response("Stopped"))
   }
 }
