@@ -24,4 +24,12 @@ class FooServiceSpec extends FlatSpec with Matchers with ScalatestRouteTest with
       responseAs[FooResponse] shouldBe FooResponse(responseMsg = "Error")
     }
   }
+
+  it should "bar" in {
+    Post("/app/bar", FooRequest("OK")) ~> routes ~> check {
+      status shouldBe OK
+      contentType shouldBe `application/json`
+      responseAs[FooResponse] shouldBe FooResponse(responseMsg = "Error")
+    }
+  }
 }
