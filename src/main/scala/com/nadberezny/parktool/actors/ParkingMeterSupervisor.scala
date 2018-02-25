@@ -1,6 +1,7 @@
 package com.nadberezny.parktool.actors
 
 import akka.actor.{ Actor, ActorRef, Props }
+import com.nadberezny.parktool.listeners.EventListener
 import org.joda.time.DateTime
 
 object ParkingMeterSupervisor {
@@ -14,8 +15,10 @@ object ParkingMeterSupervisor {
 
 class ParkingMeterSupervisor extends Actor {
   import ParkingMeterSupervisor._
-
   import context.become
+
+  val eventListener = context.actorOf(EventListener.props)
+  context.system.eventStream.subscribe(eventListener, classOf[ParkingMeter.Message])
 
   override def receive: Receive = active(Map.empty)
 
