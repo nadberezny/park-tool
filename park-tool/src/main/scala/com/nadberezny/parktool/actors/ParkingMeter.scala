@@ -1,7 +1,6 @@
 package com.nadberezny.parktool.actors
 
 import akka.actor.{ Actor, Props }
-import com.github.nscala_time.time.Imports._
 import com.nadberezny.parktool.routes.Response
 import play.api.libs.json.Json
 
@@ -13,8 +12,8 @@ object ParkingMeter {
     implicit val startMsgFormat = Json.format[Start]
   }
 
-  case class Start(vehicleId: String, date: DateTime) extends Message
-  case class Stop(vehicleId: String, date: DateTime) extends Message
+  case class Start(vehicleId: String, date: String) extends Message
+  case class Stop(vehicleId: String, date: String) extends Message
 }
 
 class ParkingMeter(id: Int) extends Actor {

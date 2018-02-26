@@ -22,7 +22,7 @@ class EventsReceiver extends Actor with ActorLogging {
 
   override def preStart(): Unit = {
     super.preStart()
-    consumer ! Subscribe.AutoPartition(List("test"))
+    consumer ! Subscribe.AutoPartition(List("foo"))
     log.info("consumer subscribed")
   }
 

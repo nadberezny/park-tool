@@ -19,12 +19,12 @@ class ParkingMeterTest(_system: ActorSystem) extends TestKit(_system)
 
   test("responds to start request") {
 
-    parkingMeter ! Start(vehicleId, DateTime.now)
+    parkingMeter ! Start(vehicleId, DateTime.now.toString)
     expectMsg(Response("Started"))
   }
 
   test("responds to stop request") {
-    parkingMeter ! Stop(vehicleId, DateTime.now)
+    parkingMeter ! Stop(vehicleId, DateTime.now.toString)
     expectMsg(Response("Stopped"))
   }
 }

@@ -14,13 +14,13 @@ class ParkingMeterSupervisorTest(_system: ActorSystem) extends TestKit(_system) 
 
   test("forwards start request") {
     val parkingMeterSupervisor = TestActorRef[ParkingMeterSupervisor]
-    parkingMeterSupervisor ! Start(1, vehicleId, DateTime.now)
+    parkingMeterSupervisor ! Start(1, vehicleId, DateTime.now.toString)
     expectMsg(Response("Started"))
   }
 
   test("forwards stop request") {
     val parkingMeterSupervisor = TestActorRef[ParkingMeterSupervisor]
-    parkingMeterSupervisor ! Stop(1, vehicleId, DateTime.now)
+    parkingMeterSupervisor ! Stop(1, vehicleId, DateTime.now.toString)
     expectMsg(Response("Stopped"))
   }
 }

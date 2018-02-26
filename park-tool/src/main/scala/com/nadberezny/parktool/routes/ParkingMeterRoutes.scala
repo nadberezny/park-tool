@@ -29,7 +29,7 @@ trait ParkingMeterRoutes extends JsonSupport {
   DateTime.now.second.get()
 
   def start(req: StartParkingRequest): Future[Either[Response, Response]] = {
-    val startMsg = ParkingMeterSupervisor.Start(req.parkingMeterId, req.vehicleId, DateTime.now)
+    val startMsg = ParkingMeterSupervisor.Start(req.parkingMeterId, req.vehicleId, DateTime.now.toString)
     (parkingMeterSupervisor ? startMsg).mapTo[Response].map { response =>
       response.message match {
         case "Started" => Right(response)
@@ -39,7 +39,7 @@ trait ParkingMeterRoutes extends JsonSupport {
   }
 
   def stop(req: StopParkingRequest): Future[Either[Response, Response]] = {
-    val stopReq = ParkingMeterSupervisor.Stop(req.parkingMeterId, req.vehicleId, DateTime.now)
+    val stopReq = ParkingMeterSupervisor.Stop(req.parkingMeterId, req.vehicleId, DateTime.now.toString)
     (parkingMeterSupervisor ? stopReq).mapTo[Response].map { response =>
       response.message match {
         case "Stopped" => Right(response)

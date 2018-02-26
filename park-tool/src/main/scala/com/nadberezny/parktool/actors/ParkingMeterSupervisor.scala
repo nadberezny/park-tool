@@ -2,15 +2,14 @@ package com.nadberezny.parktool.actors
 
 import akka.actor.{ Actor, ActorRef, Props }
 import com.nadberezny.parktool.listeners.EventListener
-import org.joda.time.DateTime
 
 object ParkingMeterSupervisor {
   type IdToActorRef = Map[Int, ActorRef]
 
   def props = Props[ParkingMeterSupervisor]
 
-  case class Start(parkingMeterId: Int, vehicleId: String, date: DateTime)
-  case class Stop(parkingMeterId: Int, vehicleId: String, date: DateTime)
+  case class Start(parkingMeterId: Int, vehicleId: String, date: String)
+  case class Stop(parkingMeterId: Int, vehicleId: String, date: String)
 }
 
 class ParkingMeterSupervisor extends Actor {

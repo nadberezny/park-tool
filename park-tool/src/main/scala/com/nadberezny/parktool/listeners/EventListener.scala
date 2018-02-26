@@ -17,7 +17,7 @@ class EventListener extends Actor with ActorLogging {
 
   override def receive: Receive = {
     case req: ParkingMeter.Start => {
-      val record = KafkaProducerRecord(topic = "test", key = Some("parkingMeterStart"), value = req)
+      val record = KafkaProducerRecord(topic = "foo", key = Some("parkingMeterStart"), value = req)
 
       val producer = KafkaProducer(
         Conf(kafkaConf, new StringSerializer(), new JsonSerializer[ParkingMeter.Start])
