@@ -22,7 +22,11 @@ lazy val root = (project in file(".")).
       "com.github.nscala-time" %% "nscala-time" % "2.18.0",
       "com.typesafe.akka" %% "akka-cluster" % akkaVersion,
       "com.typesafe.akka" %% "akka-cluster-tools" % akkaVersion,
-      "com.typesafe.akka" %% "akka-cluster" % "2.5.9"
+      "com.typesafe.akka" %% "akka-cluster" % "2.5.9",
+      "net.cakesolutions" %% "scala-kafka-client" % "1.0.0",
+      "net.cakesolutions" %% "scala-kafka-client-akka" % "1.0.0",
+      "net.cakesolutions" %% "scala-kafka-client-testkit" % "1.0.0" % "test",
+      "com.typesafe.play" %% "play-json" % "2.6.0-M7"
     )
   )
 
@@ -30,3 +34,4 @@ enablePlugins(AshScriptPlugin) // Since we're using alpine image we need a way t
 enablePlugins(DockerPlugin)
 enablePlugins(JavaAppPackaging)
 
+resolvers += Resolver.bintrayRepo("cakesolutions", "maven")

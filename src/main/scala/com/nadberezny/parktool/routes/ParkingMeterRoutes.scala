@@ -10,6 +10,7 @@ import akka.stream.Materializer
 import akka.util.Timeout
 import com.nadberezny.parktool.actors.ParkingMeterSupervisor
 import org.joda.time.DateTime
+import com.github.nscala_time.time.Imports._
 
 import scala.concurrent.{ ExecutionContextExecutor, Future }
 
@@ -25,6 +26,7 @@ trait ParkingMeterRoutes extends JsonSupport {
   implicit val timeout: Timeout
 
   val parkingMeterSupervisor: ActorRef
+  DateTime.now.second.get()
 
   def start(req: StartParkingRequest): Future[Either[Response, Response]] = {
     val startMsg = ParkingMeterSupervisor.Start(req.parkingMeterId, req.vehicleId, DateTime.now)

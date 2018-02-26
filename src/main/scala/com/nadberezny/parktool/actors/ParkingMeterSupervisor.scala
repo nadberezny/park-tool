@@ -20,6 +20,8 @@ class ParkingMeterSupervisor extends Actor {
   val eventListener = context.actorOf(EventListener.props)
   context.system.eventStream.subscribe(eventListener, classOf[ParkingMeter.Message])
 
+  val eventsReceiver = context.actorOf(EventsReceiver.props)
+
   override def receive: Receive = active(Map.empty)
 
   def active(state: IdToActorRef): Receive = {

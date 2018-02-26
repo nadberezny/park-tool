@@ -2,12 +2,17 @@ package com.nadberezny.parktool.actors
 
 import akka.actor.{ Actor, Props }
 import com.github.nscala_time.time.Imports._
-import com.nadberezny.parktool.routes.{ Response }
+import com.nadberezny.parktool.routes.Response
+import play.api.libs.json.Json
 
 object ParkingMeter {
   def props(id: Int) = Props(new ParkingMeter(id))
-
   abstract class Message
+
+  object Start {
+    implicit val startMsgFormat = Json.format[Start]
+  }
+
   case class Start(vehicleId: String, date: DateTime) extends Message
   case class Stop(vehicleId: String, date: DateTime) extends Message
 }
