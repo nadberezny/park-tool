@@ -1,6 +1,6 @@
 package com.nadberezny.parktool.routes
 
-import akka.actor.{ ActorRef, ActorSystem }
+import akka.actor.{ActorRef, ActorSystem}
 import akka.http.scaladsl.marshalling.ToResponseMarshallable
 import akka.http.scaladsl.model._
 import akka.http.scaladsl.model.StatusCodes.BadRequest
@@ -11,8 +11,9 @@ import akka.util.Timeout
 import com.nadberezny.parktool.actors.ParkingMeterSupervisor
 import org.joda.time.DateTime
 import com.github.nscala_time.time.Imports._
+import com.nadberezny.parktool.serializers.JsonSupport
 
-import scala.concurrent.{ ExecutionContextExecutor, Future }
+import scala.concurrent.{ExecutionContextExecutor, Future}
 
 abstract class ParkingRequest
 case class StartParkingRequest(parkingMeterId: Int, vehicleId: String) extends ParkingRequest

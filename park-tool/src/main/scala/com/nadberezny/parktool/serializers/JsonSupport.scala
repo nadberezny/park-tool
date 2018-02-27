@@ -1,6 +1,7 @@
-package com.nadberezny.parktool.routes
+package com.nadberezny.parktool.serializers
 
 import akka.http.scaladsl.marshallers.sprayjson.SprayJsonSupport
+import com.nadberezny.parktool.routes.{Response, StartParkingRequest, StopParkingRequest}
 
 trait JsonSupport extends SprayJsonSupport {
   import spray.json.DefaultJsonProtocol._
