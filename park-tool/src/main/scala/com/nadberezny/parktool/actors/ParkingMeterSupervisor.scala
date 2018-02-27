@@ -16,10 +16,10 @@ class ParkingMeterSupervisor extends Actor {
   import ParkingMeterSupervisor._
   import context.become
 
-  val eventListener = context.actorOf(EventListener.props)
-  context.system.eventStream.subscribe(eventListener, classOf[ParkingMeter.Message])
-
-  val eventsReceiver = context.actorOf(EventsReceiver.props)
+  override def preStart(): Unit = {
+    super.preStart()
+    subscribeListener()
+  }
 
   override def receive: Receive = active(Map.empty)
 
@@ -36,4 +36,10 @@ class ParkingMeterSupervisor extends Actor {
   }
 
   def spawn(id: Int) = context.actorOf(ParkingMeter.props(id), id.toString)
+
+  def subscribeListener() = {
+    val stream = context.system.eventStream
+    val eventListener = context.actorOf(EventListener.props)
+    stream subscribe (eventListener, classOf[ParkingMeter.Event])
+  }
 }
