@@ -24,7 +24,13 @@ class ParkingMeterRoutesSpec extends WordSpec with Matchers with ScalatestRouteT
       Post("/parking-meters/start", StartParkingRequest(1, "VH")) ~> routes ~> check {
         status shouldBe OK
         contentType shouldBe `application/json`
-        responseAs[Response] shouldBe Response(message = "Started")
+      }
+    }
+
+    "return bad request for start request of already started vehicle" in {
+      Post("/parking-meters/start", StartParkingRequest(1, "VH")) ~> routes ~> check {
+        status shouldBe BadRequest
+        contentType shouldBe `application/json`
       }
     }
 
@@ -32,7 +38,13 @@ class ParkingMeterRoutesSpec extends WordSpec with Matchers with ScalatestRouteT
       Post("/parking-meters/stop", StopParkingRequest(1, "VH")) ~> routes ~> check {
         status shouldBe OK
         contentType shouldBe `application/json`
-        responseAs[Response] shouldBe Response(message = "Stopped")
+      }
+    }
+
+    "return bad request for stop request of already stopped vehicle" in {
+      Post("/parking-meters/stop", StopParkingRequest(1, "VH")) ~> routes ~> check {
+        status shouldBe BadRequest
+        contentType shouldBe `application/json`
       }
     }
   }

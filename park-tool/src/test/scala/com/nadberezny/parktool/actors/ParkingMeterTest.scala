@@ -14,17 +14,29 @@ class ParkingMeterTest(_system: ActorSystem) extends TestKit(_system)
 
   def this() = this(ActorSystem("ParkToolTest"))
   override def afterAll() = shutdown(system)
-  val parkingMeter = system.actorOf(ParkingMeter.props(1))
-  val vehicleId = "A"
+  val vehicleId = "VH"
+  val parkingMeterId = 1
+  val parkingMeter = system.actorOf(ParkingMeter.props(parkingMeterId))
+  val startDate = DateTime.now.toString
+  val stopDate = DateTime.now.toString
 
-  test("responds to start request") {
-
-    parkingMeter ! Start(vehicleId, DateTime.now.toString)
-    expectMsg(Response("Started"))
+  test("responds with success to start request") {
+    parkingMeter ! Start(vehicleId, startDate)
+    expectMsg(Right(Response(s"Started PM#1 for VH at $startDate.")))
   }
 
-  test("responds to stop request") {
-    parkingMeter ! Stop(vehicleId, DateTime.now.toString)
-    expectMsg(Response("Stopped"))
+  test("responds with failure to start request for already started vehicle") {
+    parkingMeter ! Start(vehicleId, startDate)
+    expectMsg(Left(Response(s"VH already started for PM#1 at $startDate.")))
+  }
+
+  test("responds with success to stop request for started vehicle") {
+    parkingMeter ! Stop(vehicleId, stopDate)
+    expectMsg(Right(Response(s"Stopped PM#1 for VH at $stopDate.")))
+  }
+
+  test("responds with failure to stop request for already stopped vehicle") {
+    parkingMeter ! Stop(vehicleId, stopDate)
+    expectMsg(Left(Response(s"PM#1 not running for VH.")))
   }
 }
