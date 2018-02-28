@@ -11,20 +11,18 @@ class ParkingMeterSupervisorTest(_system: ActorSystem) extends TestKit(_system) 
   def this() = this(ActorSystem("ParkToolTest"))
   override def afterAll() = shutdown(system)
   val vehicleId = "A"
+  val parkingMeterSupervisor = TestActorRef[ParkingMeterSupervisor]
 
   test("forwards start request") {
-    val parkingMeterSupervisor = TestActorRef[ParkingMeterSupervisor]
     val startDate = DateTime.now.toString
     parkingMeterSupervisor ! Start(1, vehicleId, startDate)
     expectMsg(Right(Response(s"Started PM#1 for A at $startDate.")))
 
-    val stopDate = DateTime.now.toString
-    parkingMeterSupervisor ! Stop(1, vehicleId, stopDate)
-    expectMsg(Right(Response(s"Stopped PM#1 for A at $stopDate.")))
   }
 
   test("forwards stop request") {
-    //    val parkingMeterSupervisor = TestActorRef[ParkingMeterSupervisor]
-
+    val stopDate = DateTime.now.toString
+    parkingMeterSupervisor ! Stop(1, vehicleId, stopDate)
+    expectMsg(Right(Response(s"Stopped PM#1 for A at $stopDate.")))
   }
 }

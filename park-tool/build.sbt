@@ -26,7 +26,9 @@ lazy val root = (project in file(".")).
       "net.cakesolutions" %% "scala-kafka-client" % "1.0.0",
       "net.cakesolutions" %% "scala-kafka-client-akka" % "1.0.0",
       "net.cakesolutions" %% "scala-kafka-client-testkit" % "1.0.0" % "test",
-      "com.typesafe.play" %% "play-json" % "2.6.0-M7"
+      "com.typesafe.play" %% "play-json" % "2.6.0-M7",
+      "com.typesafe.akka" %% "akka-slf4j" % "2.5.9",
+      "ch.qos.logback" % "logback-classic" % "1.2.3" // SLF4J
     )
   )
 
