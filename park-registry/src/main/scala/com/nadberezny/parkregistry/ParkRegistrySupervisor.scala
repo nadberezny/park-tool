@@ -7,7 +7,13 @@ object ParkRegistrySupervisor {
 }
 
 class ParkRegistrySupervisor extends Actor {
-  val eventConsumer = context.actorOf(EventConsumer.props, "EventConsumer")
+  override def preStart() = {
+    super.preStart()
+    spawnEventConsumer()
+  }
 
   override def receive = Actor.emptyBehavior
+
+  def spawnEventConsumer() =
+    context.actorOf(EventConsumer.props, "EventConsumer")
 }
