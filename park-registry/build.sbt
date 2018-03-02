@@ -1,5 +1,7 @@
 lazy val akkaHttpVersion = "10.0.11"
 lazy val akkaVersion    = "2.5.8"
+lazy val slickVersion = "3.2.1"
+lazy val slickJodaMapperVersion = "2.3.0"
 
 lazy val root = (project in file(".")).
   settings(
@@ -23,7 +25,14 @@ lazy val root = (project in file(".")).
       "net.cakesolutions" %% "scala-kafka-client-testkit" % "1.0.0" % "test",
       "com.typesafe.play" %% "play-json" % "2.6.0-M7",
       "com.typesafe.akka" %% "akka-slf4j" % "2.5.9",
-      "ch.qos.logback" % "logback-classic" % "1.2.3" // SLF4J
+      "ch.qos.logback" % "logback-classic" % "1.2.3", // SLF4J
+      "com.typesafe.slick" %% "slick" % slickVersion,
+      "com.typesafe.slick" %% "slick-hikaricp" % slickVersion,
+      "org.postgresql" % "postgresql" % "42.2.1",
+      "com.github.nscala-time" %% "nscala-time" % "2.18.0",
+      "com.github.tototoshi" %% "slick-joda-mapper" % slickJodaMapperVersion,
+      "joda-time" % "joda-time" % "2.7",
+      "org.joda" % "joda-convert" % "1.7"
     )
   )
 
