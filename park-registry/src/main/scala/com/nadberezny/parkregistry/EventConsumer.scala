@@ -1,20 +1,22 @@
 package com.nadberezny.parkregistry
 
-import akka.actor.{ Actor, ActorLogging, Props }
+import akka.actor.{ Actor, ActorLogging, ActorRef, Props }
 import cakesolutions.kafka.akka.KafkaConsumerActor.{ Confirm, Subscribe, Unsubscribe }
 import cakesolutions.kafka.akka.{ ConsumerRecords, KafkaConsumerActor }
 import org.apache.kafka.common.serialization.StringDeserializer
 import play.api.libs.json.Json
+
 import scala.collection.JavaConverters._
 
 object EventConsumer {
-  def props = Props[EventConsumer]
+  def props(persistEventService: ActorRef) =
+    Props(new EventConsumer(persistEventService))
 
   object Event { implicit val msgFormat = Json.reads[Event] }
   case class Event(eventType: String, parkingMeterId: Int, vehicleId: String, date: String)
 }
 
-class EventConsumer extends Actor with ActorLogging {
+class EventConsumer(persistEventService: ActorRef) extends Actor with ActorLogging {
   import ParkRegistryApp.conf
   import EventConsumer._
 
@@ -37,8 +39,7 @@ class EventConsumer extends Actor with ActorLogging {
 
   override def preStart() = {
     super.preStart()
-    //    kafkaConsumer ! Subscribe.AutoPartition(topics)
-    kafkaConsumer ! Subscribe.AutoPartition(List("parking-meter-event"))
+    kafkaConsumer ! Subscribe.AutoPartition(topics)
   }
 
   override def postStop() = {
@@ -48,7 +49,7 @@ class EventConsumer extends Actor with ActorLogging {
 
   def processRecords(records: Seq[(Option[String], Event)]) =
     records.foreach { record =>
-      log.info(s"Consumed: ${record._2.eventType}")
+      persistEventService ! record._2
     }
 }
 

@@ -14,6 +14,8 @@ class ParkRegistrySupervisor extends Actor {
 
   override def receive = Actor.emptyBehavior
 
-  def spawnEventConsumer() =
-    context.actorOf(EventConsumer.props, "EventConsumer")
+  def spawnEventConsumer() = {
+    val persistEventService = context.actorOf(PersistEventService.props)
+    context.actorOf(EventConsumer.props(persistEventService), "EventConsumer")
+  }
 }
