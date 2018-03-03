@@ -4,6 +4,7 @@ import akka.actor.ActorSystem
 import akka.stream.ActorMaterializer
 import akka.util.Timeout
 import com.typesafe.config.ConfigFactory
+import slick.jdbc.PostgresProfile.api.Database
 
 import scala.concurrent.duration._
 
@@ -15,5 +16,8 @@ object ParkRegistryApp extends App {
   implicit val materializer = ActorMaterializer()
   implicit val timeout = Timeout(conf.getInt("timeoutMillis") millis)
 
-  system.actorOf(ParkRegistrySupervisor.props, "RegistrySupervisor")
+  val database = Database.forConfig("db")
+  db.services.Setup(database)
+
+  val supervisor = system.actorOf(ParkRegistrySupervisor.props)
 }

@@ -1,8 +1,10 @@
-package com.nadberezny.parkregistry
+package com.nadberezny.parkregistry.actors
 
 import akka.actor.{ Actor, ActorLogging, ActorRef, Props }
 import cakesolutions.kafka.akka.KafkaConsumerActor.{ Confirm, Subscribe, Unsubscribe }
 import cakesolutions.kafka.akka.{ ConsumerRecords, KafkaConsumerActor }
+import com.nadberezny.parkregistry.ParkRegistryApp
+import com.nadberezny.parkregistry.serializers.JsonDeserializer
 import org.apache.kafka.common.serialization.StringDeserializer
 import play.api.libs.json.Json
 
@@ -12,13 +14,18 @@ object EventConsumer {
   def props(persistEventService: ActorRef) =
     Props(new EventConsumer(persistEventService))
 
-  object Event { implicit val msgFormat = Json.reads[Event] }
+  object Event {
+    implicit val msgFormat = Json.reads[Event]
+
+    val Start = "start"
+    val Stop = "stop"
+  }
   case class Event(eventType: String, parkingMeterId: Int, vehicleId: String, date: String)
 }
 
 class EventConsumer(persistEventService: ActorRef) extends Actor with ActorLogging {
-  import ParkRegistryApp.conf
   import EventConsumer._
+  import ParkRegistryApp.conf
 
   val recordsExtractor = ConsumerRecords.extractor[String, Event]
 

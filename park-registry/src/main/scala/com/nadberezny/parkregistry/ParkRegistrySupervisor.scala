@@ -1,6 +1,7 @@
 package com.nadberezny.parkregistry
 
 import akka.actor.{ Actor, Props }
+import com.nadberezny.parkregistry.actors.{ EventConsumer, PersistEventService }
 
 object ParkRegistrySupervisor {
   def props = Props[ParkRegistrySupervisor]

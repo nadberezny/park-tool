@@ -1,8 +1,9 @@
-package com.nadberezny.parkregistry
+package com.nadberezny.parkregistry.serializers
+
+import java.util
 
 import org.apache.kafka.common.serialization.{ Deserializer, StringDeserializer }
 import play.api.libs.json.{ Json, Reads }
-import java.util
 
 class JsonDeserializer[T: Reads] extends Deserializer[T] {
 
