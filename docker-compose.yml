@@ -19,6 +19,17 @@ services:
     depends_on:
       - kafka
 
+  parkregistry:
+    image: nadberezny/parkregistry
+    environment:
+      - KAFKA_URL=kafka:9092
+      - PARK_REGISTRY_JDBC_URL=jdbc:postgresql://park_registry_db/park_registry
+      - PARK_REGISTRY_DB_USER=postgres
+      - PARK_REGISTRY_DB_PASSWD=postgres
+    depends_on:
+      - kafka
+      - park_registry_db
+
   kafka:
     image: spotify/kafka
     environment:
