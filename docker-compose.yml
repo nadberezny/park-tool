@@ -10,6 +10,17 @@ services:
     ports:
       - "5432:5432"
 
+  parkcalculator:
+    image: nadberezny/parkcalculator
+    environment:
+      - PARK_REGISTRY_JDBC_URL=jdbc:postgresql://park_registry_db/park_registry
+      - PARK_REGISTRY_DB_USER=postgres
+      - PARK_REGISTRY_DB_PASSWD=postgres
+    ports:
+      - "8090:8090"
+    depends_on:
+      - park_registry_db
+
   parktool:
     image: nadberezny/parktool
     environment:
