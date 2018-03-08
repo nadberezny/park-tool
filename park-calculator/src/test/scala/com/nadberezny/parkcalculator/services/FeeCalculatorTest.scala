@@ -9,8 +9,6 @@ class FeeCalculatorTest extends FunSuite {
   implicit val testRepo = new TestParkingRepo(duration = 30)
   lazy val calculator = new FeeCalculator()
 
-
-
   test("happy path") {
     val result = calculator.calculate("RST", "USD")
 

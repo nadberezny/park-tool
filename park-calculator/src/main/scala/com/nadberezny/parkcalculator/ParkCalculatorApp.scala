@@ -19,8 +19,9 @@ object ParkCalculatorApp extends App with ParkingCalculatorRoutes {
   override implicit val executor = system.dispatcher
   override implicit val materializer = ActorMaterializer()
   override implicit val parkingRepository = new ParkingRegistryRepository
-
   override implicit val timeout = Timeout(conf.getLong("timeoutMillis"), MILLISECONDS)
+
+  override implicit val feeCalculatorSupervisor = system.actorOf(actors.FeeCalculatorSupervisor.props)
 
   Http().bindAndHandle(
     routes, conf.getString("http.host"), conf.getInt("http.port")
