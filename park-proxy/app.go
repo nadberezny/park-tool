@@ -1,10 +1,10 @@
 package main
 
 import (
-    "os"
 	"github.com/gorilla/mux"
 	"github.com/urfave/negroni"
 	"github.com/wunderlist/moxy"
+	"os"
 )
 
 func main() {
@@ -20,10 +20,12 @@ func main() {
 	router := mux.NewRouter()
 
 	//Parking Meter routes
-	router.HandleFunc("/parking-meters/ping", toolProxy.ServeHTTP)
+	router.HandleFunc("/parking-meters/ping", toolProxy.ServeHTTP).Methods("GET")
+	router.HandleFunc("/parking-meters/start", toolProxy.ServeHTTP).Methods("POST")
+	router.HandleFunc("/parking-meters/stop", toolProxy.ServeHTTP).Methods("POST")
 
 	//Parking Calculator routes
-	router.HandleFunc("/parking-fees/{vehicleId}", calcProxy.ServeHTTP)
+	router.HandleFunc("/parking-fees/{vehicleId}", calcProxy.ServeHTTP).Methods("GET")
 
 	app := negroni.New()
 	app.UseHandler(router)
