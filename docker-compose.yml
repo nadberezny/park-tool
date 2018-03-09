@@ -21,6 +21,17 @@ services:
     depends_on:
       - park_registry_db
 
+  parkproxy:
+    image: nadberezny/parkproxy
+    ports:
+      - "3000:3000"
+    environment:
+      - PARK_TOOL_HOST=parktool:8080
+      - PARK_CALCULATOR_HOST=parkcalculator:8090
+    depends_on:
+      - parktool
+      - parkcalculator
+
   parktool:
     image: nadberezny/parktool
     environment:
