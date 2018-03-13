@@ -1,0 +1,6 @@
+version: '3'
+services:
+  parktool:
+    image: nadberezny/parktool:0.1
+    ports:
+      - "8080:8080"
